@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Choose Your Path — THE NETWORK</title>
+<meta name="description" content="50 seats. 90 days. Free if you keep up. Removed if you don't." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Anton&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #181411;
+    --ink: #f5f5f0;
+    --ink-dim: #8a8a85;
+    --accent: #e63b1e;
+    --rule: #322a23;
+    --accent2: #ff7a18;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    font-size: 15px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.modal-open { overflow: hidden; }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1000;
+    mix-blend-mode: overlay;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── HEADER ── */
+  .page-header {
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .page-header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .brand { font-weight: 800; font-size: 13px; }
+  .brand .dot { color: var(--accent); }
+  .back-link {
+    color: var(--ink-dim);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .offer-hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-num {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .offer-hero h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 7vw, 88px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .offer-hero h1 .accent { color: var(--accent); }
+  .offer-hero .hero-sub {
+    font-size: 16px;
+    color: var(--ink-dim);
+    max-width: 620px;
+    line-height: 1.65;
+  }
+
+  /* ── TIER GRID ── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule);
+    margin-top: 64px;
+    margin-bottom: 0;
+  }
+  .tier-card {
+    padding: 56px 48px;
+    position: relative;
+  }
+  .tier-card + .tier-card { border-left: 1px solid var(--rule); }
+  .tier-card.active { background: var(--bg-elev); }
+  .tier-card.coming-soon { background: var(--bg); }
+
+  .tier-badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 24px;
+  }
+  .tier-badge.badge-live { background: var(--accent); color: var(--bg); }
+  .tier-badge.badge-soon { border: 1px solid var(--rule); color: var(--ink-dim); }
+
+  .tier-name {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tier-tagline {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+
+  /* ── FREE PRICE BLOCK ── */
+  .free-price-block { margin-bottom: 32px; }
+  .free-price-main {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(56px, 7vw, 88px);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .free-price-sub {
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 8px;
+  }
+  .free-price-note {
+    font-size: 12px;
+    color: var(--ink-dim);
+    line-height: 1.65;
+    max-width: 340px;
+    opacity: 0.65;
+  }
+
+  /* ── TBD PRICE (Ascension) ── */
+  .tier-price {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .tier-price .tbd {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    color: var(--ink-dim);
+    letter-spacing: -0.01em;
+  }
+  .tier-price .price-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    opacity: 0.55;
+    align-self: flex-end;
+    padding-bottom: 6px;
+  }
+
+  /* ── SPOTS METER ── */
+  .spots-meter {
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .spots-meter .label { font-size: 10px; letter-spacing: 0.3em; color: var(--ink-dim); text-transform: uppercase; }
+  .spots-meter .count { font-family: 'Anton', sans-serif; font-size: 22px; }
+  .spots-meter .count .filled { color: var(--accent); }
+  .spots-bar { flex: 1 1 100%; height: 3px; background: var(--rule); position: relative; overflow: hidden; }
+  .spots-bar::after { content: ''; position: absolute; inset: 0; width: 0%; background: var(--accent); }
+  .spots-note {
+    flex: 1 1 100%;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ink-dim);
+    opacity: 0.65;
+    margin-top: 4px;
+  }
+
+  /* ── FEATURE LIST ── */
+  .tier-includes {
+    list-style: none;
+    margin-bottom: 40px;
+  }
+  .tier-includes li {
+    padding: 10px 0 10px 20px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-dim);
+    position: relative;
+  }
+  .tier-includes li:last-child { border-bottom: none; }
+  .tier-includes li::before {
+    content: '→';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    font-size: 12px;
+    top: 12px;
+  }
+  .coming-soon .tier-includes li::before { color: var(--ink-dim); }
+  .tier-includes li strong { color: var(--ink); font-weight: 500; }
+
+  /* ── CTA ── */
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 22px 44px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--accent);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .cta-btn:hover {
+    background: var(--bg);
+    color: var(--accent);
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--accent);
+  }
+  .cta-btn.outline {
+    background: transparent;
+    color: var(--ink-dim);
+    border-color: var(--rule);
+  }
+  .cta-btn.outline:hover {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink-dim);
+    box-shadow: 6px 6px 0 var(--rule);
+    transform: translate(-3px, -3px);
+  }
+  .cta-sub {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.08em;
+    margin-top: 14px;
+  }
+
+  /* ── CONTRACT SECTION ── */
+  .contract-section {
+    padding: 80px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .contract-section h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(36px, 5.5vw, 64px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .contract-section h2 .accent { color: var(--accent); }
+  .contract-body p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    max-width: 760px;
+    margin-bottom: 16px;
+  }
+  .contract-body p:last-child { margin-bottom: 0; }
+  .contract-body p strong { color: var(--ink); font-weight: 500; }
+
+  /* ── REFRAME ── */
+  .reframe {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .reframe p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    max-width: 760px;
+    margin-bottom: 16px;
+  }
+  .reframe p:last-child { margin-bottom: 0; }
+  .reframe p strong { color: var(--ink); font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 0;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  /* ── MODALS ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.88);
+    backdrop-filter: blur(8px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal-box {
+    background: var(--bg-elev);
+    border: 1px solid var(--rule);
+    width: 100%;
+    max-width: 600px;
+    min-height: 400px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(24px);
+    transition: transform 0.2s ease;
+  }
+  .modal-overlay.active .modal-box { transform: translateY(0); }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 32px 40px 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .modal-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .modal-title .accent { color: var(--accent); }
+  .modal-close {
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--ink-dim);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    margin-left: 16px;
+    margin-top: 4px;
+  }
+  .modal-close:hover { border-color: var(--ink-dim); color: var(--ink); }
+  .modal-body { padding: 32px 40px; }
+  .modal-sub {
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .modal-sub strong { color: var(--ink); font-weight: 500; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .offer-hero { padding: 48px 0 40px; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .tier-card + .tier-card { border-left: none; border-top: 1px solid var(--rule); }
+    .tier-card { padding: 40px 24px; }
+    .contract-section { padding: 56px 0; }
+    .reframe { padding: 56px 0; }
+    .modal-header { padding: 24px 24px 20px; }
+    .modal-body { padding: 24px; }
+    footer .container { flex-direction: column; }
+  }
+
+  /* contrast lift + orange hover accents — tracker theme parity (2026-06-12) */
+  .tier-grid, .spots-meter, .modal-box { transition: border-color .15s ease; }
+  .tier-grid:hover, .spots-meter:hover, .modal-box:hover { border-color: var(--accent2); }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="page-header">
+  <div class="container page-header-inner">
+    <div class="brand">THE NETWORK<span class="dot">.</span></div>
+    <a href="/" class="back-link">← BACK</a>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="offer-hero">
+  <div class="container">
+    <div class="section-num">00 / CHOOSE YOUR PATH</div>
+    <h1>TWO TIERS.<br/><span class="accent">ONE STANDARD.</span></h1>
+    <p class="hero-sub">
+      The standard never changes. You show up, you log, you perform.
+      Pick the tier that matches where you are right now.
+    </p>
+  </div>
+</div>
+
+<!-- ── TIER GRID ── -->
+<div class="container">
+  <div class="tier-grid">
+
+    <!-- TIER 1: THE NETWORK -->
+    <div class="tier-card active">
+      <div class="tier-badge badge-live">FOUNDING COHORT — 90 DAYS — FREE</div>
+      <div class="tier-name">THE NETWORK</div>
+      <div class="tier-tagline">FOUNDING COHORT — PRODUCT VALIDATION PHASE</div>
+
+      <div class="free-price-block">
+        <div class="free-price-main">FREE</div>
+        <div class="free-price-sub">for the first 50 founding members</div>
+        <div class="free-price-note">Day 91: survivors lock in founder's price for life. New joiners pay $47/mo.</div>
+      </div>
+
+      <div class="spots-meter">
+        <span class="label">Founding Seats</span>
+        <span class="count"><span class="filled">0</span> / 50 OPEN</span>
+        <div class="spots-bar"></div>
+        <div class="spots-note">Seat opens when someone gets removed.</div>
+      </div>
+
+      <ul class="tier-includes">
+        <li><strong>Private trading network</strong> — Discord, war room, all channels</li>
+        <li><strong>The Eye</strong> — daily discipline tracking, public leaderboard, auto-removal at sub-50%</li>
+        <li><strong>Daily live war room</strong> — cameras on, no hiding</li>
+        <li><strong>Logging infrastructure</strong> — trades, training, diet, posted publicly every day</li>
+        <li><strong>Direct access to Luccas</strong> — the founding cohort talks to me daily</li>
+        <li><strong>90-day program</strong> — Day 91 survivors lock in at founder's price for life, or you're out</li>
+        <li><strong>Replaceable</strong> — slip below the standard, your seat goes to the waitlist</li>
+      </ul>
+
+      <button class="cta-btn" id="apply-btn">APPLY FOR A SEAT →</button>
+      <span class="cta-sub">Application reviewed in 48 hours. Acceptance is not guaranteed.</span>
+    </div>
+
+    <!-- TIER 2: ASCENSION OF MAN -->
+    <div class="tier-card coming-soon">
+      <div class="tier-badge badge-soon">COMING SOON</div>
+      <div class="tier-name">ASCENSION<br/>OF MAN</div>
+      <div class="tier-tagline">Personalized 1:1 Coaching with Luccas</div>
+
+      <div class="tier-price">
+        <div class="tbd">PRICE TBA</div>
+        <div class="price-note">Pricing announced at launch</div>
+      </div>
+
+      <p style="font-size: 14px; line-height: 1.7; color: var(--ink-dim); margin-bottom: 32px;">
+        The full transformation. Mindset, habits, nutrition, training.
+        Become the man you were supposed to be — trading becomes a side effect.
+      </p>
+
+      <ul class="tier-includes">
+        <li><strong>Everything in The Network</strong> — Discord + war room included</li>
+        <li><strong>Direct 1:1 coaching from Luccas</strong> — weekly calls, daily access</li>
+        <li><strong>Mindset architecture</strong> — how to think, decide, hold standards</li>
+        <li><strong>Habit engineering</strong> — the daily systems that compound into a different man</li>
+        <li><strong>Nutrition protocol</strong> — built for your body, your life, your goals</li>
+        <li><strong>Training protocol</strong> — physical foundation for mental performance</li>
+        <li><strong>The transformation is the product.</strong> Trading is downstream.</li>
+      </ul>
+
+      <button class="cta-btn outline" id="waitlist-btn">JOIN THE WAITLIST →</button>
+      <span class="cta-sub">Doors open soon. Limited slots when they do.</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── THE CONTRACT ── -->
+<div class="contract-section">
+  <div class="container">
+    <div class="section-num">00 / THE CONTRACT</div>
+    <h2>FREE TO JOIN.<br/><span class="accent">EASIER TO LOSE.</span></h2>
+    <div class="contract-body">
+      <p>A free seat is not a gift. It's a test.</p>
+      <p>Fifty men get in. Daily participation is the price. Trade logs, training logs, diet logs — public, every day. Miss the standard, you're out. No warnings. No second chances. Your seat goes to whoever's next on the waitlist.</p>
+      <p>Day 91 the program ends. Whoever's still standing IS the founding cohort — locked in at founder's price for life. Everyone else pays $47/mo or doesn't get in at all.</p>
+      <p>This isn't a tryout. This is selection.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── REFRAME ── -->
+<div class="reframe">
+  <div class="container">
+    <p>The standard is the same across both tiers. <strong>You show up or you're out.</strong></p>
+    <p>The Network is the starting point — free for 90 days, then founder's price for whoever earns the right to stay. Ascension of Man is for men ready to go further with direct 1:1 coaching from Luccas.</p>
+    <p>Prove you belong in the room. Then decide what's next.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div>© 2026 THE NETWORK</div>
+    <div>BUILT FOR MEN WHO REFUSE TO LOSE</div>
+  </div>
+</footer>
+
+<!-- ── NETWORK APPLICATION MODAL ── -->
+<div class="modal-overlay" id="apply-modal" role="dialog" aria-modal="true" aria-labelledby="apply-title">
+  <div class="modal-box" id="apply-box">
+    <div class="modal-header">
+      <div class="modal-title" id="apply-title">THE <span class="accent">NETWORK</span> —<br/>FOUNDING COHORT APPLICATION</div>
+      <button class="modal-close" id="apply-close" aria-label="Close modal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub">
+        <strong>50 seats. 90 days. Free if you keep up. Removed if you don't.</strong>
+      </p>
+      <iframe
+        data-tally-src="https://tally.so/embed/Me7JZX?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="424"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="The Network — Founding Cohort Application">
+      </iframe>
+      <script>
+        var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ── ASCENSION WAITLIST MODAL ── -->
+<div class="modal-overlay" id="waitlist-modal" role="dialog" aria-modal="true" aria-labelledby="waitlist-title">
+  <div class="modal-box" id="waitlist-box">
+    <div class="modal-header">
+      <div class="modal-title" id="waitlist-title">ASCENSION<br/>OF <span class="accent">MAN</span></div>
+      <button class="modal-close" id="waitlist-close" aria-label="Close modal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub">
+        You'll be <strong>first in line</strong> when Ascension of Man opens.
+        No spam. One email when the doors open — nothing else.
+      </p>
+      <iframe
+        data-tally-src="https://tally.so/embed/2EDJrb?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="282"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Ascension of Man — Waitlist">
+      </iframe>
+      <script>
+        var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── NETWORK APPLICATION MODAL ──
+  const applyModal  = document.getElementById('apply-modal');
+  const applyBox    = document.getElementById('apply-box');
+  const applyBtn    = document.getElementById('apply-btn');
+  const applyClose  = document.getElementById('apply-close');
+
+  function openApplyModal() {
+    applyModal.classList.add('active');
+    document.body.classList.add('modal-open');
+    applyClose.focus();
+    // Load only this modal's iframe if not yet loaded
+    var f = applyBox.querySelector('iframe[data-tally-src]:not([src])');
+    if (f) f.src = f.dataset.tallySrc;
+    if (typeof Tally !== 'undefined') Tally.loadEmbeds();
+  }
+  function closeApplyModal() {
+    applyModal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+    applyBtn.focus();
+  }
+  applyBtn.addEventListener('click', openApplyModal);
+  applyClose.addEventListener('click', closeApplyModal);
+  applyModal.addEventListener('click', function(e) {
+    if (!applyBox.contains(e.target)) closeApplyModal();
+  });
+
+  // ── ASCENSION WAITLIST MODAL ──
+  const waitlistModal = document.getElementById('waitlist-modal');
+  const waitlistBox   = document.getElementById('waitlist-box');
+  const waitlistBtn   = document.getElementById('waitlist-btn');
+  const waitlistClose = document.getElementById('waitlist-close');
+
+  function openWaitlistModal() {
+    waitlistModal.classList.add('active');
+    document.body.classList.add('modal-open');
+    waitlistClose.focus();
+    // Load only this modal's iframe if not yet loaded
+    var f = waitlistBox.querySelector('iframe[data-tally-src]:not([src])');
+    if (f) f.src = f.dataset.tallySrc;
+    if (typeof Tally !== 'undefined') Tally.loadEmbeds();
+  }
+  function closeWaitlistModal() {
+    waitlistModal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+    waitlistBtn.focus();
+  }
+  waitlistBtn.addEventListener('click', openWaitlistModal);
+  waitlistClose.addEventListener('click', closeWaitlistModal);
+  waitlistModal.addEventListener('click', function(e) {
+    if (!waitlistBox.contains(e.target)) closeWaitlistModal();
+  });
+
+  // ESC closes whichever modal is active
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape') return;
+    if (applyModal.classList.contains('active'))    closeApplyModal();
+    if (waitlistModal.classList.contains('active')) closeWaitlistModal();
+  });
+</script>
+
+</body>
+</html>

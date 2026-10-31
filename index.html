@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>THE NETWORK — Where traders become consistent.</title>
+<meta name="description" content="A brotherhood that rebuilds the discipline and habits of men who want to become successful traders. Held to the standard. Or removed." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Anton&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #181411;
+    --ink: #f5f5f0;
+    --ink-dim: #8a8a85;
+    --accent: #e63b1e;
+    --rule: #322a23;
+    --accent2: #ff7a18;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    font-size: 15px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1000;
+    mix-blend-mode: overlay;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .topbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .brand { font-weight: 800; font-size: 13px; }
+  .brand .dot { color: var(--accent); }
+  .status { color: var(--ink-dim); display: flex; gap: 24px; align-items: center; }
+  .status .live::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .top-cta {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 8px 16px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    font-size: 10px;
+    transition: all 0.15s;
+  }
+  .top-cta:hover { background: var(--ink); }
+
+  .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--rule); }
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(56px, 11vw, 156px);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero h1 .strike {
+    color: var(--ink-dim);
+    text-decoration: line-through;
+    text-decoration-thickness: 4px;
+    text-decoration-color: var(--accent);
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(16px, 1.6vw, 20px);
+    max-width: 740px;
+    color: var(--ink-dim);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .hero-sub strong { color: var(--ink); font-weight: 500; }
+  .hero-cta-row { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+
+  .social-proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .avatars { display: flex; }
+  .avatars .av {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-elev);
+    border: 2px solid var(--bg);
+    margin-left: -10px;
+    font-family: 'Anton', sans-serif;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .avatars .av:first-child { margin-left: 0; background: var(--accent); }
+  .avatars .av:nth-child(2) { background: #2a2a2a; }
+  .avatars .av:nth-child(3) { background: #3a2a1e; }
+  .avatars .av:nth-child(4) { background: #1e2a2a; }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 22px 44px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--accent);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .cta-btn:hover {
+    background: var(--bg);
+    color: var(--accent);
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--accent);
+  }
+  .cta-btn.lg { padding: 28px 56px; font-size: 14px; }
+
+  .cta-block {
+    padding: 64px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .cta-block .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .section { padding: 100px 0; border-bottom: 1px solid var(--rule); }
+  .section-num {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .section h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .section h2 .accent { color: var(--accent); }
+
+  .system { background: var(--bg); padding: 120px 0; border-bottom: 1px solid var(--rule); position: relative; }
+  .system-quote {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    max-width: 1000px;
+  }
+  .system-quote .accent { color: var(--accent); }
+  .system-quote .strike { text-decoration: line-through; text-decoration-color: var(--accent); text-decoration-thickness: 3px; color: var(--ink-dim); }
+  .system-body {
+    font-size: 18px;
+    line-height: 1.7;
+    max-width: 760px;
+    color: var(--ink-dim);
+  }
+  .system-body p { margin-bottom: 20px; }
+  .system-body strong { color: var(--ink); font-weight: 500; }
+  .system-body .accent-text { color: var(--accent); font-weight: 500; }
+
+  .checklist { max-width: 880px; }
+  .checklist-intro {
+    font-size: 18px;
+    color: var(--ink-dim);
+    margin-bottom: 48px;
+    line-height: 1.7;
+    max-width: 720px;
+  }
+  .check-item {
+    padding: 24px 0;
+    padding-left: 56px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 17px;
+    line-height: 1.6;
+    position: relative;
+  }
+  .check-item::before {
+    content: '⚡';
+    color: var(--accent);
+    font-size: 18px;
+    line-height: 1.6;
+    position: absolute;
+    left: 0;
+    top: 24px;
+  }
+  .check-item strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .checklist-end {
+    font-size: 18px;
+    margin-top: 48px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+  }
+  .checklist-end strong { color: var(--ink); display: block; margin-bottom: 8px; }
+
+  .trap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .trap-grid p { font-size: 16px; line-height: 1.8; margin-bottom: 20px; }
+  .trap-grid p strong { color: var(--accent); font-weight: 500; }
+  .trap-stats { border-left: 2px solid var(--accent); padding-left: 24px; }
+  .trap-stats .stat { margin-bottom: 28px; }
+  .trap-stats .stat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .trap-stats .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: 4px;
+  }
+
+  .mechanism-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .mech-card {
+    padding: 40px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    transition: background 0.2s;
+  }
+  .mech-card:hover { background: var(--bg-elev); }
+  .mech-card .label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .mech-card h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .mech-card h3 .accent { color: var(--accent); }
+  .mech-card p { font-size: 14px; line-height: 1.7; color: var(--ink-dim); }
+
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule);
+  }
+  .aud-col { padding: 48px; }
+  .aud-col + .aud-col { border-left: 1px solid var(--rule); }
+  .aud-col h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .aud-col.yes h3 { color: var(--ink); }
+  .aud-col.no h3 { color: var(--ink-dim); }
+  .aud-col h3::before {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+  }
+  .aud-col.yes h3::before { content: '+'; color: var(--accent); border-color: var(--accent); }
+  .aud-col.no h3::before { content: '×'; }
+  .aud-list { list-style: none; }
+  .aud-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .aud-list li:last-child { border-bottom: none; }
+  .aud-col.no .aud-list li { color: var(--ink-dim); }
+
+  .offer-card {
+    border: 2px solid var(--accent);
+    padding: 64px 48px;
+    margin-top: 24px;
+    position: relative;
+    background:
+      repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(230, 59, 30, 0.02) 20px, rgba(230, 59, 30, 0.02) 40px),
+      var(--bg);
+  }
+  .offer-card::before {
+    content: '90-DAY FREE FOUNDING COHORT';
+    position: absolute;
+    top: -10px;
+    left: 32px;
+    background: var(--bg);
+    padding: 0 16px;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+  }
+  .offer-price {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .offer-price .price {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(72px, 10vw, 120px);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+  }
+  .offer-price .price .dollar { color: var(--accent); }
+  .offer-price .price .period { font-size: 0.3em; color: var(--ink-dim); letter-spacing: 0.1em; }
+  .offer-price .strike-price {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    color: var(--ink-dim);
+    text-decoration: line-through;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 3px;
+  }
+  .offer-terms { font-size: 15px; color: var(--ink-dim); line-height: 1.8; margin-bottom: 40px; max-width: 640px; }
+  .offer-terms strong { color: var(--ink); font-weight: 500; }
+  .spots-meter {
+    border: 1px solid var(--rule);
+    padding: 20px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .spots-meter .label { font-size: 11px; letter-spacing: 0.3em; color: var(--ink-dim); text-transform: uppercase; }
+  .spots-meter .count { font-family: 'Anton', sans-serif; font-size: 28px; }
+  .spots-meter .count .filled { color: var(--accent); }
+  .spots-bar { flex: 1 1 100%; height: 4px; background: var(--rule); position: relative; overflow: hidden; }
+  .spots-bar::after { content: ''; position: absolute; inset: 0; width: 0%; background: var(--accent); }
+  .cohort-line { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-dim); }
+
+  .cta-row { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cta-sub { font-size: 12px; color: var(--ink-dim); letter-spacing: 0.1em; }
+
+  .guarantee {
+    border: 1px dashed var(--ink-dim);
+    padding: 32px 40px;
+    margin-top: 48px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .guarantee .seal {
+    font-family: 'Anton', sans-serif;
+    font-size: 56px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .guarantee p { font-size: 15px; line-height: 1.6; color: var(--ink-dim); }
+  .guarantee strong { color: var(--ink); }
+
+  .or-nothing { padding: 100px 0; border-bottom: 1px solid var(--rule); background: var(--bg); }
+  .or-nothing h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    color: var(--ink-dim);
+  }
+  .or-nothing h2 .accent { color: var(--accent); }
+  .or-nothing p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    margin-bottom: 20px;
+    max-width: 760px;
+  }
+  .or-nothing p strong { color: var(--ink); font-weight: 500; }
+
+  .final { padding: 160px 0; text-align: center; border-bottom: 1px solid var(--rule); }
+  .final h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(48px, 9vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .final h2 .accent { color: var(--accent); }
+  .final p {
+    font-size: 18px;
+    max-width: 640px;
+    margin: 0 auto 48px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+  }
+
+  footer {
+    padding: 48px 0;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 60px 0; }
+    .section, .system, .or-nothing { padding: 60px 0; }
+    .trap-grid { grid-template-columns: 1fr; gap: 40px; }
+    .mechanism-grid { grid-template-columns: 1fr; }
+    .audience-grid { grid-template-columns: 1fr; }
+    .aud-col + .aud-col { border-left: none; border-top: 1px solid var(--rule); }
+    .check-item { font-size: 15px; padding: 18px 0 18px 44px; line-height: 1.55; }
+    .check-item::before { top: 18px; font-size: 16px; }
+    .guarantee { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; }
+    .offer-card { padding: 48px 24px; }
+    .topbar-inner { font-size: 10px; }
+    .status { gap: 12px; }
+    .top-cta { display: none; }
+    footer .container { flex-direction: column; }
+    .hero-cta-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(18px, 2.5vw, 28px);
+    letter-spacing: 0.5em;
+    color: var(--ink-dim);
+    margin: 64px 0;
+  }
+  .or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .type-b-block {
+    border: 1px solid var(--rule);
+    padding: 48px;
+    background: var(--bg-elev);
+  }
+  .type-b-block h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(22px, 3.5vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .type-b-body { max-width: 760px; }
+  .type-b-body p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+  }
+  @media (max-width: 768px) {
+    .type-b-block { padding: 32px 20px; }
+    .or-divider { margin: 40px 0; }
+  }
+
+  /* contrast lift + orange hover accents — tracker theme parity (2026-06-12) */
+  .mech-card, .type-b-block, .spots-meter, .aud-grid { transition: border-color .15s ease, background 0.2s; }
+  .mech-card:hover { background: var(--bg-elev); border-color: var(--accent2); }
+  .type-b-block:hover, .spots-meter:hover, .aud-grid:hover { border-color: var(--accent2); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">THE NETWORK<span class="dot">.</span></div>
+    <div class="status">
+      <span class="live">13/50 FOUNDING SEATS</span>
+      <a href="/offer" class="top-cta">Apply →</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag">WHERE TRADERS BECOME CONSISTENT</div>
+    <p style="font-size: 13px; color: var(--ink-dim); letter-spacing: 0.06em; margin-top: -24px; margin-bottom: 32px; font-style: italic;">The infrastructure that makes slipping impossible.</p>
+    <h1>
+      You're a <span class="strike">trader</span>.<br/>
+      You're <span class="accent">inconsistent</span>.<br/>
+      You're <span class="accent">alone</span>.
+    </h1>
+    <p class="hero-sub">
+      And you know damn well you're not putting in the work you should be.
+      <strong>The Network</strong> is the environment engineered to fix that — permanently.
+      90 days free. Show up or you're out. No promises — just the room that forces the work.
+    </p>
+    <div class="hero-cta-row">
+      <a href="/offer" class="cta-btn lg">APPLY FOR A SEAT →</a>
+      <div class="cohort-line">Cohort closes when full.</div>
+    </div>
+  </div>
+</section>
+
+<section class="system">
+  <div class="container">
+    <div class="section-num">01 / THE TRAP</div>
+    <h3 class="system-quote">
+      The system was built to keep you <span class="strike">comfortable</span>.<br/>
+      Not <span class="accent">free</span>.
+    </h3>
+    <div class="system-body">
+      <p>
+        Wake up at 6. Sit in traffic. Sit at a desk. Build someone else's dream.
+        Pay your taxes. Watch inflation eat your savings. Buy things you don't need with money you don't have to impress people you don't like.
+      </p>
+      <p>
+        Get told to "trust the process." Get told to "be patient." Get told that a 401k and a 30-year mortgage are the path.
+      </p>
+      <p>
+        <strong>You see through it.</strong> That's why you started trading. That's why you watch the channels you watch. That's why you're reading this right now instead of scrolling Netflix.
+      </p>
+      <p>
+        But here's the truth most people won't tell you — <span class="accent-text">escaping the system isn't about strategy. It's about discipline.</span> If you can't even hold yourself to the standard — log a trade, hit the gym, eat right, show up daily — you're not escaping anything. You're just a slave with a different boss: yourself.
+      </p>
+      <p>
+        <strong>The bare minimum to be your own boss is being able to hold yourself to the standard.</strong> Most men can't. That's why most men stay exactly where they are.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-num">02 / BE HONEST</div>
+    <h2>Is this <span class="accent">you</span>?</h2>
+    <p class="checklist-intro">
+      Read every line. If five or more of these hit — you already know why you're here.
+    </p>
+    <div class="checklist">
+      <div class="check-item">You're <strong>tired of the 9-5</strong> and you refuse to spend your one life building someone else's dream.</div>
+      <div class="check-item">You started trading because you <strong>see through the system</strong> — but you're not making the progress you should be.</div>
+      <div class="check-item">You're <strong>inconsistent</strong>. Some weeks you're locked in. Most weeks you're not. And you can't seem to fix it on your own.</div>
+      <div class="check-item">You <strong>trade alone</strong>. No one sees your screen, no one knows when you break your rules, no one calls you out when you slip.</div>
+      <div class="check-item">You've watched <strong>every YouTube video and read every book</strong> — but the gap between what you know and what you do keeps getting wider.</div>
+      <div class="check-item">You know <strong>nobody around you gets it</strong>. Your friends don't trade. Your family doesn't understand. You feel alone in the work.</div>
+      <div class="check-item">You want to be in a room with <strong>men who are just like you</strong> — ambitious, disciplined, refusing to be slaves, building their own reality.</div>
+      <div class="check-item">You're ready to <strong>put your effort on display</strong> and be held to a standard that doesn't let you slip.</div>
+    </div>
+    <p class="checklist-end">
+      <strong>If that's you — The Network was built for you.</strong>
+      Not for people who want to lurk and think about it. For men who are ready to lock in.
+    </p>
+  </div>
+</section>
+
+<div class="cta-block">
+  <div class="container">
+    <a href="/offer" class="cta-btn">APPLY FOR A SEAT →</a>
+    <div class="cohort-line">Cohort closes when full.</div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-num">03 / WHY ME</div>
+    <h2>I was in your <span class="accent">exact</span> position.</h2>
+    <div class="trap-grid">
+      <div>
+        <p>I blew accounts. I quit. I came back. I quit again. I knew I didn't want a 9-5. I knew I didn't want a boss. I knew I wanted out of the matrix — but I had no one around me on the same path.</p>
+        <p>I'd watch other "traders" online flex screenshots and pretend they had it figured out. Meanwhile I was trading alone at 3am, lying to myself about my journal, skipping the gym, eating like shit, and wondering why nothing was working.</p>
+        <p>I started posting daily recaps because I needed men who would call me out. Not a guru. Not a course. <strong>Other men on the same path — who would hold the standard when I slipped.</strong></p>
+        <p>That's what The Network is. It's not a server. It's not content. It's the environment I built to make sure I never slip again — and now I'm opening it to a small group of men who are tired of slipping too.</p>
+      </div>
+      <div class="trap-stats">
+        <div class="stat">
+          <div class="stat-num">280+</div>
+          <div class="stat-label">Days documented publicly</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Days hidden from the camera</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1</div>
+          <div class="stat-label">Standard: show up or get out</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-num">03 / THE TRUTH</div>
+    <h2>THE PROCESS IS <span class="accent">THE PRODUCT</span>.</h2>
+    <div class="system-body">
+      <p>Every guru in this space lies about their P&amp;L. Fake screenshots. Lifestyle bait. Rented Lambos. I'm not doing that.</p>
+      <p>I'm 280+ days into ICT methodology, posting every trade on YouTube — wins, losses, no edits, no cherry picks. Anyone who watches the channel knows the truth.</p>
+      <p>Here's the bigger truth: I'm not selling you trading. I'm not even selling you a strategy. The Network is in founding phase — that's why these 90 days are free. Fifty men. Ninety days. We prove the room delivers before anyone pays a dollar.</p>
+      <p>What The Network IS — a brotherhood of men on the same path, inside an infrastructure that makes slipping impossible. You don't leave a better trader because we taught you a new strategy. You leave a better trader because you finally became the kind of man who can be consistent.</p>
+      <p>If you want a guru promising you'll be rich in 90 days, close this tab. If you want a seat in the room where men get honest about the work — apply.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-num">04 / THE MECHANISM</div>
+    <h2>How <span class="accent">The Network</span> builds the discipline.</h2>
+    <p style="font-size: 16px; max-width: 720px; margin-bottom: 32px; color: var(--ink-dim); line-height: 1.7;">
+      The Eye is the bot that watches over everything. It tracks every log, runs the leaderboard, and removes anyone who isn't pulling their weight. It doesn't sleep. It doesn't forget. It doesn't make exceptions.
+    </p>
+    <p style="font-size: 16px; max-width: 720px; margin-bottom: 64px; color: var(--ink-dim); line-height: 1.7;">
+      Discipline doesn't come from willpower. It comes from infrastructure that makes slipping impossible. Here's how The Network forces consistency, every day.
+    </p>
+    <div class="mechanism-grid">
+      <div class="mech-card">
+        <div class="label">001 / Logging</div>
+        <h3>Trade. Train. <span class="accent">Eat.</span></h3>
+        <p>Every day you log your trades, your training, and your diet. No log = no points. No points = falling behind.</p>
+      </div>
+      <div class="mech-card">
+        <div class="label">002 / Ranking</div>
+        <h3>The <span class="accent">Leaderboard</span></h3>
+        <p>Public, live, all-time. Everyone sees who's putting in the work. Everyone sees who's slipping. There's no hiding.</p>
+      </div>
+      <div class="mech-card">
+        <div class="label">003 / Recognition</div>
+        <h3>Daily <span class="accent">Call-Outs</span></h3>
+        <p>The Eye announces who topped the leaderboard daily and weekly. Top performers get bonus points. Pretenders get exposed.</p>
+      </div>
+      <div class="mech-card">
+        <div class="label">004 / The Drop</div>
+        <h3>Score the <span class="accent">Floor</span> → Out</h3>
+        <p>Score below 50% of the weekly point cap and you get the warning. Stay there and you're removed. No carriers. No coasters.</p>
+      </div>
+      <div class="mech-card">
+        <div class="label">005 / The War Room</div>
+        <h3>Cameras <span class="accent">On</span></h3>
+        <p>Daily live calls. Trade together. Review together. Work blocks with cameras on. Lock-in sessions where no one is hiding behind a screen name.</p>
+      </div>
+      <div class="mech-card">
+        <div class="label">006 / Brotherhood</div>
+        <h3>Men on the <span class="accent">Same Path</span></h3>
+        <p>Ambitious. Disciplined. Hungry. Men who refuse to be slaves to the system. Men building their own reality, together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-block">
+  <div class="container">
+    <a href="/offer" class="cta-btn">APPLY FOR A SEAT →</a>
+    <div class="cohort-line">Cohort closes when full.</div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-num">05 / READ CAREFULLY</div>
+    <h2>Who this is <span class="accent">for</span>.</h2>
+    <p style="font-size: 16px; max-width: 720px; margin-bottom: 48px; color: var(--ink-dim); line-height: 1.7;">
+      The Network is built for a specific kind of man. If you don't see yourself on the left, the right side will eat you alive in here.
+    </p>
+    <div class="audience-grid">
+      <div class="aud-col yes">
+        <h3>Built for you if</h3>
+        <ul class="aud-list">
+          <li>You refuse to be a slave to the 9-5 and you're building your way out.</li>
+          <li>You're serious about trading and tired of being inconsistent.</li>
+          <li>You crave brotherhood with men on the same path.</li>
+          <li>You put your work on display. No hiding.</li>
+          <li>You show up every day — especially when it's hard.</li>
+          <li>You want to become the most locked-in version of yourself.</li>
+        </ul>
+      </div>
+      <div class="aud-col no">
+        <h3>Not for you if</h3>
+        <ul class="aud-list">
+          <li>You want to lurk and consume content.</li>
+          <li>You think having your work on display is "too much pressure."</li>
+          <li>You're not ready to put your performance on display.</li>
+          <li>You're looking for signals, copy-trades, or hand-holding.</li>
+          <li>You make excuses when you slip.</li>
+          <li>You think the 9-5 path is just fine.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="offer">
+  <div class="container">
+    <div class="section-num">06 / THE OFFER</div>
+    <h2>One seat. 90 days. <span class="accent">Free.</span></h2>
+
+    <div class="offer-card">
+      <div class="offer-price">
+        <div class="price" style="color: var(--accent);">FREE</div>
+      </div>
+      <div class="offer-terms">
+        <strong>Free for 90 days.</strong> No credit card. No catch.
+        Fifty founding seats. Daily participation is the price. Miss the standard, you're out. Day 91, survivors lock in at founder's price for life. Everyone else pays $47/mo or doesn't get back in.
+      </div>
+
+      <div class="spots-meter">
+        <span class="label">Founding Seats</span>
+        <span class="count"><span class="filled">0</span> / 50 OPEN</span>
+        <div class="spots-bar"></div>
+      </div>
+
+      <div class="cta-row">
+        <a href="/offer" class="cta-btn">APPLY FOR A SEAT →</a>
+        <span class="cta-sub">Application reviewed in 48 hours. Acceptance is not guaranteed.</span>
+      </div>
+
+      <div class="guarantee">
+        <div class="seal">90</div>
+        <p>
+          <strong>Selection, not a guarantee.</strong> A free seat is not a gift — it's a test. Miss the daily standard and your seat goes to whoever's next on the waitlist. Day 91, survivors lock in founder's price for life.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="or-nothing">
+  <div class="container">
+    <div class="section-num">07 / OR</div>
+    <h3 style="font-family:'Anton',sans-serif;font-size:clamp(22px,3.5vw,44px);line-height:1.1;letter-spacing:-0.01em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;">Ready to be held to a standard you've never been held to before?</h3>
+    <h3 style="font-family:'Anton',sans-serif;font-size:clamp(22px,3.5vw,44px);line-height:1.1;letter-spacing:-0.01em;text-transform:uppercase;color:var(--ink);margin-bottom:48px;">Ready to find your limits?</h3>
+    <h2>Or do <span class="accent">nothing</span>.</h2>
+    <p>
+      Close this tab. Go watch Netflix. Open another YouTube video. Tell yourself "next month." Tell yourself you'll start when you have more money. When you have more time. When you feel ready.
+    </p>
+    <p>
+      <strong>The timing will never be perfect.</strong> The founding cohort closes when 50 seats are filled. And every day spent on the outside is another day the men inside are putting in the work — and pulling further ahead.
+    </p>
+    <p>
+      The difference between men who break out of the system and men who don't isn't talent. It isn't luck. It isn't connections.
+    </p>
+    <p>
+      <strong>It's a single decision, made at a single moment.</strong>
+    </p>
+  </div>
+</section>
+
+<section class="final">
+  <div class="container">
+    <h2>This is your <span class="accent">one shot</span>.</h2>
+    <p>
+      The locked-in version of you exists. The disciplined version exists. The one who actually shows up exists.
+      The Network is where that man gets built. The choice is yours.
+    </p>
+    <a href="/offer" class="cta-btn lg">APPLY FOR A SEAT →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 THE NETWORK</div>
+    <div>BUILT FOR MEN WHO REFUSE TO LOSE</div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section, .system, .or-nothing, .final').forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
